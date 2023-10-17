@@ -11,6 +11,8 @@ import {
 } from '@nextui-org/react';
 import { BsFillPlayFill } from 'react-icons/bs';
 
+import { Countdown } from '.';
+
 export const Quiz = () => {
   return (
     <Card>
@@ -27,28 +29,7 @@ export const Quiz = () => {
           </p>
         </div>
 
-        <div className="grid grid-flow-col gap-4 text-center auto-cols-max">
-          <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-            <span className="font-mono text-5xl">
-              <span>12</span>
-            </span>
-            hours
-          </div>
-
-          <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-            <span className="font-mono text-5xl">
-              <span>24</span>
-            </span>
-            minutes
-          </div>
-
-          <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-            <span className="font-mono text-5xl">
-              <span>60</span>
-            </span>
-            seconds
-          </div>
-        </div>
+        <Countdown />
       </CardHeader>
 
       <Divider/>
