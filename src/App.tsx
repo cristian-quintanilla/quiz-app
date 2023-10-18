@@ -5,9 +5,9 @@ import { Quiz, SelectCategories, Results } from './screens';
 export const App = () => {
   return (
     <Layout>
-      {/* <SelectCategories /> */}
+      <SelectCategories />
       {/* <Quiz /> */}
-      <Results />
+      {/* <Results /> */}
     </Layout>
   );
 };
