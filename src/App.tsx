@@ -1,14 +1,13 @@
 import { Layout } from './layout/Layout';
 
-import { Quiz } from './components';
+import { Quiz, SelectCategories, Results } from './components';
 
 export const App = () => {
   return (
     <Layout>
-      {/* <SelectCategories /> */}
-      <Quiz />
-
-      {/* Results / Reset */}
+      <SelectCategories />
+      {/* <Quiz /> */}
+      {/* <Results /> */}
     </Layout>
   );
 };

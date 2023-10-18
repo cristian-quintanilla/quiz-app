@@ -61,7 +61,7 @@ export const Quiz = () => {
       <CardFooter className="w-full md:w-10/12 mx-auto my-4 flex justify-end">
         <Button isDisabled color="primary" radius="sm">
           Next
-          <BsFillPlayFill />
+          <BsFillPlayFill size={ 22 } />
         </Button>
       </CardFooter>
     </Card>

@@ -132,7 +132,7 @@ export const SelectCategories = () => {
       <CardFooter className="w-full md:w-10/12 mx-auto my-4">
         <Button color="primary" radius="sm">
           Play Now
-          <BsFillPlayFill />
+          <BsFillPlayFill size={ 22 } />
         </Button>
       </CardFooter>
     </Card>
