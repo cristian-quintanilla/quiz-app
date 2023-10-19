@@ -1,6 +1,9 @@
+import { useDispatch } from 'react-redux';
 import { Button, CardBody, CardFooter, Divider, Select, SelectItem } from '@nextui-org/react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { BsFillPlayFill } from 'react-icons/bs';
+
+import { setTimer } from '../store/slices';
 
 import {
   CATEGORIES,
@@ -21,7 +24,8 @@ interface FormInputs {
 }
 
 export const QuestionsForm = () => {
-  const { control, handleSubmit } = useForm<FormInputs>({
+  const dispatch = useDispatch();
+  const { control, formState: { isValid }, handleSubmit } = useForm<FormInputs>({
     defaultValues: {
       amount: 1,
       category: '0',
@@ -34,6 +38,12 @@ export const QuestionsForm = () => {
   });
 
   const onSubmit: SubmitHandler<FormInputs> = data => {
+    const { hours, minutes, seconds } = data;
+
+    // Set timer
+    dispatch( setTimer({ hours: +hours, minutes: +minutes, seconds: +seconds }) );
+
+    // TODO: Get questions
     console.log(data);
   };
 
@@ -71,7 +81,7 @@ export const QuestionsForm = () => {
               placeholder="Select a number"
               defaultSelectedKeys={['1']}
               value={ field.value }
-              onChange={e => field.onChange(+e.target.value)}
+              onChange={ field.onChange }
             >
               {NUM_OF_QUESTIONS.map(cat => (
                 <SelectItem key={ cat.key } textValue={ cat.value }>
@@ -141,7 +151,7 @@ export const QuestionsForm = () => {
                   className="max-w-xs"
                   defaultSelectedKeys={['0']}
                   value={ field.value }
-                  onChange={e => field.onChange(+e.target.value)}
+                  onChange={ field.onChange }
                 >
                   {COUNTDOWN_TIME.hours.map(cat => (
                     <SelectItem key={ cat.key } textValue={ cat.value.toString() }>
@@ -163,7 +173,7 @@ export const QuestionsForm = () => {
                   className="max-w-xs"
                   defaultSelectedKeys={['10']}
                   value={ field.value }
-                  onChange={e => field.onChange(+e.target.value)}
+                  onChange={ field.onChange }
                 >
                   {COUNTDOWN_TIME.minutes.map(cat => (
                     <SelectItem key={ cat.key } textValue={ cat.value.toString() }>
@@ -185,7 +195,7 @@ export const QuestionsForm = () => {
                   className="max-w-xs"
                   defaultSelectedKeys={['0']}
                   value={ field.value }
-                  onChange={e => field.onChange(+e.target.value)}
+                  onChange={ field.onChange }
                 >
                   {COUNTDOWN_TIME.seconds.map(cat => (
                     <SelectItem key={ cat.key } textValue={ cat.value.toString() }>
@@ -202,7 +212,12 @@ export const QuestionsForm = () => {
       <Divider />
 
       <CardFooter className="w-full md:w-10/12 mx-auto my-4">
-        <Button type="submit" color="primary" radius="sm">
+        <Button
+          isDisabled={ !isValid  }
+          type="submit"
+          color="primary"
+          radius="sm"
+        >
           Play Now
           <BsFillPlayFill size={ 22 } />
         </Button>

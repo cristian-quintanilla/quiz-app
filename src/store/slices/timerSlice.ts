@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TimerState } from '../../interfaces/interfaces';
+import { TimerState, TimerProps} from '../../interfaces/interfaces';
 
 const initialState: TimerState = {
   hours: 0,
@@ -12,14 +12,10 @@ export const timer = createSlice({
   name: 'timer',
   initialState,
   reducers: {
-    setHours: (state, action: PayloadAction<number>) => {
-      state.hours = action.payload;
-    },
-    setMinutes: (state, action: PayloadAction<number>) => {
-      state.minutes = action.payload;
-    },
-    setSeconds: (state, action: PayloadAction<number>) => {
-      state.seconds = action.payload;
+    setTimer: (state, action: PayloadAction<TimerProps>) => {
+      state.hours   = action.payload.hours;
+      state.minutes = action.payload.minutes;
+      state.seconds = action.payload.seconds;
     },
     setTimeExpired: (state, action: PayloadAction<boolean>) => {
       state.timeExpired = action.payload;
@@ -28,9 +24,7 @@ export const timer = createSlice({
 });
 
 export const {
-  setHours,
-  setMinutes,
-  setSeconds,
+  setTimer,
   setTimeExpired,
 } = timer.actions;
 

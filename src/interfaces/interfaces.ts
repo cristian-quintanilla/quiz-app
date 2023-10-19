@@ -4,3 +4,9 @@ export interface TimerState {
   seconds: number;
   timeExpired: boolean;
 }
+
+export interface TimerProps {
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
