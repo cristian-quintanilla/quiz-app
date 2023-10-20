@@ -4,10 +4,7 @@ import rootReducer from './rootReducer';
 import { questionsApi } from '../api/questionsApi';
 
 const store = configureStore({
-  reducer: {
-    rootReducer,
-    [questionsApi.reducerPath]: questionsApi.reducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(questionsApi.middleware),
 
 });

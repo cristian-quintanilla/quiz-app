@@ -4,7 +4,7 @@ import { Button, CardBody, CardFooter, Divider, Select, SelectItem } from '@next
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { BsFillPlayFill } from 'react-icons/bs';
 
-import { setTimer } from '../store/slices';
+import { setCurrentStep, setTimer } from '../store/slices';
 import { useLazyGetQuestionsQuery } from '../api/questionsApi';
 
 import {
@@ -30,14 +30,15 @@ export const QuestionsForm = () => {
   const [ trigger, result ] = useLazyGetQuestionsQuery();
   const { data: questions, isLoading } = result;
 
+  // Go to next step
   useEffect(() => {
     if (questions) {
-      console.log('TODO Next Step');
+      dispatch( setCurrentStep(2) );
       console.log('TODO Set Questions', questions);
     }
   }, [questions]);
 
-  const { control, formState: { isValid }, handleSubmit } = useForm<FormInputs>({
+  const { control, formState: { isValid }, watch, handleSubmit } = useForm<FormInputs>({
     defaultValues: {
       amount: 5,
       category: '0',
@@ -49,14 +50,18 @@ export const QuestionsForm = () => {
     }
   });
 
+  // Get timer valaues
+  const hours = +watch('hours');
+  const minutes = +watch('minutes');
+  const seconds = +watch('seconds');
+
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     const { amount, category, difficulty, type, hours, minutes, seconds } = data;
+    // Get questions
+    await trigger({ amount: +amount, category, difficulty, type });
 
     // Set timer
     dispatch( setTimer({ hours: +hours, minutes: +minutes, seconds: +seconds }) );
-
-    // Get questions
-    trigger({ amount: +amount, category, difficulty, type });
   };
 
   return (
@@ -226,7 +231,7 @@ export const QuestionsForm = () => {
       <CardFooter className="w-full md:w-10/12 mx-auto my-4">
         <Button
           isLoading={ isLoading }
-          isDisabled={ !isValid || isLoading }
+          isDisabled={ !isValid || isLoading || (hours === 0 && minutes === 0 && seconds === 0) }
           type="submit"
           color="primary"
           radius="sm"

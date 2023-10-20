@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TimerState, TimerProps} from '../../interfaces/interfaces';
+import { TimerState, TimerProps } from '../../interfaces/interfaces';
 
 const initialState: TimerState = {
   hours: 0,
-  minutes: 2,
+  minutes: 1,
   seconds: 0,
   timeExpired: false,
 };

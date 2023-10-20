@@ -12,6 +12,9 @@ export const Countdown = () => {
   const { hours, minutes, seconds } = useSelector((state: RootState) => state.timer);
   const [ h, m, s ] = useCountdown(NOW_IN_MS + ((hours * 3600) + (minutes * 60) + seconds) * 1000);
 
+  console.log({ hours, minutes, seconds });
+  console.log({ h, m, s });
+
   useEffect(() => {
     if (h + m + s <= 0) {
       dispatch( setTimeExpired(true) );
