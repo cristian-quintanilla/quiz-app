@@ -17,8 +17,7 @@ export const Quiz = () => {
           </p>
         </div>
 
-        {/* Fix Timer */}
-        {/* <Countdown /> */}
+        <Countdown />
       </CardHeader>
 
       <Divider/>

@@ -3,7 +3,7 @@ import { TimerState, TimerProps } from '../../interfaces/interfaces';
 
 const initialState: TimerState = {
   hours: 0,
-  minutes: 1,
+  minutes: 2,
   seconds: 0,
   timeExpired: false,
 };

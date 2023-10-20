@@ -1,24 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-export const useCountdown = (targetDate: number) => {
-  const countDownDate = new Date(targetDate).getTime();
-  const [ countDown, setCountDown ] = useState(countDownDate - new Date().getTime());
+export const useCountdown = (callback: any, delay: number | null) => {
+  const savedCallback = useRef<any>();
 
+  // Remember the latest callback.
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCountDown(countDownDate - new Date().getTime());
-    }, 1000);
+    savedCallback.current = callback
+  }, [callback])
 
-    return () => clearInterval(interval);
-  }, [countDownDate]);
+  // Set up the interval.
+  useEffect(() => {
+    if (delay !== null) {
+      let interval = setInterval(() => {
+        savedCallback.current();
+      }, delay);
 
-  return getReturnValues(countDown);
-};
-
-const getReturnValues = (countDown: number) => {
-  const hours = Math.floor((countDown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((countDown % (1000 * 60)) / 1000);
-
-  return [hours, minutes, seconds];
-};
+      return () => clearInterval(interval);
+    }
+  }, [delay]);
+}
