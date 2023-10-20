@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, CardBody, CardFooter, Divider, Select, SelectItem } from '@nextui-org/react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { BsFillPlayFill } from 'react-icons/bs';
 
 import { setTimer } from '../store/slices';
+import { useLazyGetQuestionsQuery } from '../api/questionsApi';
 
 import {
   CATEGORIES,
@@ -25,9 +27,19 @@ interface FormInputs {
 
 export const QuestionsForm = () => {
   const dispatch = useDispatch();
+  const [ trigger, result ] = useLazyGetQuestionsQuery();
+  const { data: questions, isLoading } = result;
+
+  useEffect(() => {
+    if (questions) {
+      console.log('TODO Next Step');
+      console.log('TODO Set Questions', questions);
+    }
+  }, [questions]);
+
   const { control, formState: { isValid }, handleSubmit } = useForm<FormInputs>({
     defaultValues: {
-      amount: 1,
+      amount: 5,
       category: '0',
       difficulty: '0',
       type: '0',
@@ -37,14 +49,14 @@ export const QuestionsForm = () => {
     }
   });
 
-  const onSubmit: SubmitHandler<FormInputs> = data => {
-    const { hours, minutes, seconds } = data;
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    const { amount, category, difficulty, type, hours, minutes, seconds } = data;
 
     // Set timer
     dispatch( setTimer({ hours: +hours, minutes: +minutes, seconds: +seconds }) );
 
-    // TODO: Get questions
-    console.log(data);
+    // Get questions
+    trigger({ amount: +amount, category, difficulty, type });
   };
 
   return (
@@ -79,7 +91,7 @@ export const QuestionsForm = () => {
             <Select
               label="How many questions do you want in the quiz?"
               placeholder="Select a number"
-              defaultSelectedKeys={['1']}
+              defaultSelectedKeys={['10']}
               value={ field.value }
               onChange={ field.onChange }
             >
@@ -213,13 +225,14 @@ export const QuestionsForm = () => {
 
       <CardFooter className="w-full md:w-10/12 mx-auto my-4">
         <Button
-          isDisabled={ !isValid  }
+          isLoading={ isLoading }
+          isDisabled={ !isValid || isLoading }
           type="submit"
           color="primary"
           radius="sm"
         >
+          { !isLoading && <BsFillPlayFill size={ 22 } /> }
           Play Now
-          <BsFillPlayFill size={ 22 } />
         </Button>
       </CardFooter>
     </form>
