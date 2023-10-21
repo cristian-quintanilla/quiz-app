@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Button, Card, CardBody, CardFooter, Divider, Radio, RadioGroup } from '@nextui-org/react';
+import { Button, Card, CardBody, CardFooter, Chip, Divider, Radio, RadioGroup } from '@nextui-org/react';
 import { BsFillPlayFill, BsFillCheckCircleFill } from 'react-icons/bs';
 
 import { RootState } from '../store/rootReducer';
@@ -12,6 +12,8 @@ export const CurrentQuestion = () => {
       <CardBody className="flex flex-col gap-6 w-full md:w-11/12 mx-auto my-4">
         <Card>
           <CardBody>
+            <Chip className="mb-2" color="primary" variant="flat">Category</Chip>
+
             <p className="font-semibold text-2xl">
               Q. The film "2001: A Space Odyssey" was released on December 31st, 2000.
             </p>

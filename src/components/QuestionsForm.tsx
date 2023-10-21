@@ -14,6 +14,7 @@ import {
   NUM_OF_QUESTIONS,
   QUESTIONS_TYPE,
 } from '../constants';
+import { setQuestions } from '../store/slices/questionsSlice';
 
 interface FormInputs {
   amount: number;
@@ -34,13 +35,26 @@ export const QuestionsForm = () => {
   useEffect(() => {
     if (questions) {
       dispatch( setCurrentStep(2) );
-      console.log('TODO Set Questions', questions);
+
+      const newQuestions = questions.results.map((question: any, index: number) => ({
+        ...question,
+        id: index + 1,
+        user_answer: '',
+      }));
+
+      dispatch(
+        setQuestions({
+          questions: newQuestions,
+          totalQuestions: questions.results.length,
+          currentQuestion: 1,
+        })
+      );
     }
   }, [questions]);
 
   const { control, formState: { isValid }, watch, handleSubmit } = useForm<FormInputs>({
     defaultValues: {
-      amount: 5,
+      amount: 10,
       category: '0',
       difficulty: '0',
       type: '0',
@@ -57,6 +71,7 @@ export const QuestionsForm = () => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     const { amount, category, difficulty, type, hours, minutes, seconds } = data;
+
     // Get questions
     await trigger({ amount: +amount, category, difficulty, type });
 
