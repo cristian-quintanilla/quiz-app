@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useCountdown } from '../hooks/useCountdown';
@@ -15,12 +15,16 @@ export const Countdown = () => {
   const dispatch = useDispatch();
   const [ status, setStatus ] = useState(STATUS.STARTED);
   const { hours, minutes, seconds } = useSelector((state: RootState) => state.timer);
-  const [ secondsRemaining, setSecondsRemaining ] = useState<number>((hours * 3600) + (minutes * 60) + seconds);
+  const [ secondsRemaining, setSecondsRemaining ] = useState<number>(0);
 
   const secondsToDisplay = secondsRemaining % 60;
   const minutesRemaining = (secondsRemaining - secondsToDisplay) / 60;
   const minutesToDisplay = minutesRemaining % 60;
   const hoursToDisplay = (minutesRemaining - minutesToDisplay) / 60;
+
+  useEffect(() => {
+    setSecondsRemaining((hours * 3600) + (minutes * 60) + seconds);
+  }, [hours, minutes, seconds]);
 
   useCountdown(() => {
     if (secondsRemaining > 0) {
