@@ -3,7 +3,7 @@ import { QuestionsState } from '../../interfaces/interfaces';
 
 const initialState: QuestionsState = {
   questions: [],
-  currentQuestion: 1,
+  currentQuestion: 0,
   totalQuestions: 0,
 };
 
@@ -15,12 +15,17 @@ export const questions = createSlice({
       state.questions = action.payload.questions;
       state.currentQuestion = action.payload.currentQuestion;
       state.totalQuestions = action.payload.totalQuestions;
+    },
+    setUserAnswer: (state, action: PayloadAction<{ currentQuestion: number, answer: string }>) => {
+      state.currentQuestion = action.payload.currentQuestion + 1;
+      state.questions[action.payload.currentQuestion].user_answer = action.payload.answer;
     }
   },
 });
 
 export const {
   setQuestions,
+  setUserAnswer,
 } = questions.actions;
 
 export default questions.reducer;
