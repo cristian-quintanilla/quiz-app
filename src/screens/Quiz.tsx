@@ -18,7 +18,7 @@ export const Quiz = () => {
           />
 
           <p className="text-lg font-semibold">
-            Question { currentQuestion } of { totalQuestions }
+            Question { currentQuestion + 1 } of { totalQuestions }
           </p>
         </div>
 

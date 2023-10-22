@@ -46,7 +46,7 @@ export const QuestionsForm = () => {
         setQuestions({
           questions: newQuestions,
           totalQuestions: questions.results.length,
-          currentQuestion: 1,
+          currentQuestion: 0,
         })
       );
     }
