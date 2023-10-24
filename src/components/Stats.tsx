@@ -1,7 +1,12 @@
 import { Button, Card, CardBody, Divider } from '@nextui-org/react';
+import { useSelector } from 'react-redux';
 import { BsArrowRepeat } from 'react-icons/bs';
 
+import { RootState } from '../store/rootReducer';
+
 export const Stats = () => {
+  const { grade, correctAnswers, score, totalQuestions } = useSelector((state: RootState) => state.quiz);
+
   return (
     <>
       <Card>
@@ -15,32 +20,26 @@ export const Stats = () => {
       <Card>
         <CardBody>
           <h2 className="text-center font-semibold text-2xl">
-            Grade: A+
+            Grade: { grade }
           </h2>
         </CardBody>
       </Card>
 
       <Card>
         <CardBody>
-          <p className="text-center font-medium text-xl">Total Questions: 1</p>
+          <p className="text-center font-medium text-xl">Total Questions: { totalQuestions }</p>
         </CardBody>
       </Card>
 
       <Card>
         <CardBody>
-          <p className="text-center font-medium text-xl">Correct Answers: 1</p>
+          <p className="text-center font-medium text-xl">Correct Answers: { correctAnswers }</p>
         </CardBody>
       </Card>
 
       <Card>
         <CardBody>
-          <p className="text-center font-medium text-xl">Score: 0%</p>
-        </CardBody>
-      </Card>
-
-      <Card>
-        <CardBody>
-          <p className="text-center font-medium text-xl">Time Taken: 0h 0m 2s</p>
+          <p className="text-center font-medium text-xl">Score: { score }%</p>
         </CardBody>
       </Card>
 

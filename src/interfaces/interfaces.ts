@@ -1,3 +1,5 @@
+import { Grades } from '../types/grades';
+
 export interface TimerState {
   hours: number;
   minutes: number;
@@ -6,11 +8,11 @@ export interface TimerState {
 }
 
 export interface QuizState {
-  currentStep: number;
-  grade: 'F' | 'D' | 'C' | 'B' | 'A';
+  currentStep?: number;
+  grade: Grades;
   correctAnswers: number;
   score: number;
-  timeTaken: TimerProps;
+  totalQuestions: number;
 }
 
 export interface QuestionsState {

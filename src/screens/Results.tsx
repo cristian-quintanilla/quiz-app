@@ -1,4 +1,5 @@
 import { Card, CardBody, Tab, Tabs } from '@nextui-org/react';
+
 import { QNA, Stats } from '../components';
 
 export const Results = () => {

@@ -4,9 +4,10 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Card, CardBody, CardFooter, Chip, Divider, Radio, RadioGroup } from '@nextui-org/react';
 import { BsFillPlayFill, BsFillCheckCircleFill } from 'react-icons/bs';
 
+import { Grades } from '../types/grades';
 import { RootState } from '../store/rootReducer';
-import { setUserAnswer } from '../store/slices';
 import { joinArrayofStringsRandom } from '../helpers';
+import { setCurrentStep, setResults, setUserAnswer } from '../store/slices';
 
 interface FormInputs {
   answer: string;
@@ -15,7 +16,7 @@ interface FormInputs {
 export const CurrentQuestion = () => {
   const dispatch = useDispatch();
   const { timeExpired } = useSelector((state: RootState) => state.timer);
-  const { currentQuestion: index, questions } = useSelector((state: RootState) => state.questions);
+  const { currentQuestion: index, questions, totalQuestions } = useSelector((state: RootState) => state.questions);
 
   // Answers
   const [ answers, setAnswers ] = useState<string[]>([]);
@@ -47,8 +48,34 @@ export const CurrentQuestion = () => {
     );
   };
 
-  // console.log(isValid)
-  // console.log(questions[index]);
+  const checkResults = () => {
+    // Calculate stats
+    const correctAnswers = questions.reduce((acc, question) => {
+      if (question.correct_answer === question.user_answer) return acc + 1;
+      return acc;
+    }, 0);
+
+    let grade: Grades = 'F';
+    const score = Math.round((correctAnswers / totalQuestions) * 100);
+
+    if (score < 100) grade = 'A';
+    if (score < 90) grade = 'B';
+    if (score < 80) grade = 'C';
+    if (score < 70) grade = 'D';
+    if (score < 60) grade = 'F';
+
+    dispatch(
+      setResults({
+        grade,
+        correctAnswers,
+        score,
+        totalQuestions,
+      })
+    );
+
+    // Results screen
+    dispatch( setCurrentStep(3) );
+  }
 
   return (
     <form onSubmit={ handleSubmit( onSubmit ) }>
@@ -78,7 +105,9 @@ export const CurrentQuestion = () => {
               onChange={ field.onChange }
             >
               {answers.map((option, index) => (
-                <Radio key={ index } value={ option }>{ option }</Radio>
+                <Radio key={ index } value={ option }>
+                  <span dangerouslySetInnerHTML={{  __html: option }}></span>
+                </Radio>
               ))}
             </RadioGroup>
           )}
@@ -88,19 +117,36 @@ export const CurrentQuestion = () => {
       <Divider />
 
       <CardFooter className="w-full md:w-10/12 mx-auto my-4 flex justify-end">
-        {
-          !timeExpired ? (
-            <Button isDisabled={ !isValid } type="submit" color="primary" radius="sm">
-              Next
-              <BsFillPlayFill size={ 22 } />
-            </Button>
-          ) : (
-            <Button color="primary" radius="sm">
-              Check Results
-              <BsFillCheckCircleFill size={ 22 } />
-            </Button>
-          )
-        }
+        {(!timeExpired && index + 1 === totalQuestions) && (
+          <Button
+            isDisabled={ !isValid }
+            color="primary"
+            radius="sm"
+            onClick={ checkResults }
+          >
+            Check Results
+            <BsFillCheckCircleFill size={ 22 } />
+          </Button>
+        )}
+
+        {timeExpired && (
+          <Button
+            isDisabled={ !isValid }
+            color="primary"
+            radius="sm"
+            onClick={ checkResults }
+          >
+            Check Results
+            <BsFillCheckCircleFill size={ 22 } />
+          </Button>
+        )}
+
+        {(!timeExpired && index + 1 !== totalQuestions) && (
+          <Button isDisabled={ !isValid } type="submit" color="primary" radius="sm">
+            Next
+            <BsFillPlayFill size={ 22 } />
+          </Button>
+        )}
       </CardFooter>
     </form>
   );

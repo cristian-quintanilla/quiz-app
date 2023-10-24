@@ -6,11 +6,7 @@ const initialState: QuizState = {
   grade: 'A',
   correctAnswers: 0,
   score: 0,
-  timeTaken: {
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  },
+  totalQuestions: 0,
 };
 
 export const quiz = createSlice({
@@ -19,12 +15,19 @@ export const quiz = createSlice({
   reducers: {
     setCurrentStep: (state, action: PayloadAction<number>) => {
       state.currentStep = action.payload;
+    },
+    setResults: (state, action: PayloadAction<QuizState>) => {
+      state.grade = action.payload.grade;
+      state.correctAnswers = action.payload.correctAnswers;
+      state.score = action.payload.score;
+      state.totalQuestions = action.payload.totalQuestions;
     }
   },
 });
 
 export const {
   setCurrentStep,
+  setResults,
 } = quiz.actions;
 
 export default quiz.reducer;
