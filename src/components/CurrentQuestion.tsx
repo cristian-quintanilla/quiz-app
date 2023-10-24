@@ -43,7 +43,9 @@ export const CurrentQuestion = () => {
     dispatch( setUserAnswer({ currentQuestion: index, answer: data.answer }) );
 
     // Go to next screen if it is the last question
-    if (index === totalQuestions - 1) dispatch( setCurrentStep(3) );
+    if (index === totalQuestions - 1) {
+      checkResults();
+    };
   };
 
   const checkResults = () => {
