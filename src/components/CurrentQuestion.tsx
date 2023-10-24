@@ -36,16 +36,14 @@ export const CurrentQuestion = () => {
     )
   }, [index]);
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<FormInputs> = data => {
     reset();
 
     // Select user answer and go to next question
-    dispatch(
-      setUserAnswer({
-        currentQuestion: index,
-        answer: data.answer
-      })
-    );
+    dispatch( setUserAnswer({ currentQuestion: index, answer: data.answer }) );
+
+    // Go to next screen if it is the last question
+    if (index === totalQuestions - 1) dispatch( setCurrentStep(3) );
   };
 
   const checkResults = () => {
@@ -64,14 +62,7 @@ export const CurrentQuestion = () => {
     if (score < 70) grade = 'D';
     if (score < 60) grade = 'F';
 
-    dispatch(
-      setResults({
-        grade,
-        correctAnswers,
-        score,
-        totalQuestions,
-      })
-    );
+    dispatch( setResults({ grade, correctAnswers, score, totalQuestions }) );
 
     // Results screen
     dispatch( setCurrentStep(3) );
@@ -117,7 +108,7 @@ export const CurrentQuestion = () => {
       <Divider />
 
       <CardFooter className="w-full md:w-10/12 mx-auto my-4 flex justify-end">
-        {(!timeExpired && index + 1 === totalQuestions) && (
+        {timeExpired ? (
           <Button
             isDisabled={ !isValid }
             color="primary"
@@ -127,21 +118,7 @@ export const CurrentQuestion = () => {
             Check Results
             <BsFillCheckCircleFill size={ 22 } />
           </Button>
-        )}
-
-        {timeExpired && (
-          <Button
-            isDisabled={ !isValid }
-            color="primary"
-            radius="sm"
-            onClick={ checkResults }
-          >
-            Check Results
-            <BsFillCheckCircleFill size={ 22 } />
-          </Button>
-        )}
-
-        {(!timeExpired && index + 1 !== totalQuestions) && (
+        ) : (
           <Button isDisabled={ !isValid } type="submit" color="primary" radius="sm">
             Next
             <BsFillPlayFill size={ 22 } />

@@ -1,6 +1,13 @@
+import { useSelector } from 'react-redux';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 
+import { RootState } from '../store/rootReducer';
+
 export const QNA = () => {
+  const { questions } = useSelector((state: RootState) => state.questions);
+
+  console.log(questions);
+
   return (
     <Table aria-label="qna-tanle">
       <TableHeader>
@@ -12,13 +19,15 @@ export const QNA = () => {
       </TableHeader>
 
       <TableBody>
-        <TableRow key="1">
-          <TableCell>1</TableCell>
-          <TableCell>Half-Life by Valve uses the GoldSrc game engine, which is a highly modified version of what engine?</TableCell>
-          <TableCell>Source Engine</TableCell>
-          <TableCell>Quake Engine</TableCell>
-          <TableCell>0</TableCell>
-        </TableRow>
+        {questions.map(({ id, question, user_answer, correct_answer }, index) => (
+          <TableRow key={ index }>
+            <TableCell>{ id }</TableCell>
+            <TableCell>{ question }</TableCell>
+            <TableCell>{ user_answer }</TableCell>
+            <TableCell>{ correct_answer }</TableCell>
+            <TableCell>{ user_answer === correct_answer ? '1' : '0' }</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );
