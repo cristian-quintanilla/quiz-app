@@ -1,11 +1,19 @@
 import { Button, Card, CardBody, Divider } from '@nextui-org/react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BsArrowRepeat } from 'react-icons/bs';
 
 import { RootState } from '../store/rootReducer';
+import { resetQuestions, resetQuiz, resetTimer } from '../store/slices';
 
 export const Stats = () => {
+  const dispatch = useDispatch();
   const { grade, correctAnswers, score, totalQuestions } = useSelector((state: RootState) => state.quiz);
+
+  const reset = () => {
+    dispatch( resetQuiz() );
+    dispatch( resetTimer() );
+    dispatch( resetQuestions() );
+  }
 
   return (
     <>
@@ -46,7 +54,7 @@ export const Stats = () => {
       <Divider />
 
       <div className="w-full md:w-10/12 mx-auto my-4 flex">
-        <Button color="primary" radius="sm">
+        <Button color="primary" radius="sm" onClick={ reset }>
           Play Again
           <BsArrowRepeat size={ 22 } />
         </Button>

@@ -21,13 +21,21 @@ export const quiz = createSlice({
       state.correctAnswers = action.payload.correctAnswers;
       state.score = action.payload.score;
       state.totalQuestions = action.payload.totalQuestions;
-    }
+    },
+    resetQuiz: state => {
+      state.currentStep = 1;
+      state.grade = 'A';
+      state.correctAnswers = 0;
+      state.score = 0;
+      state.totalQuestions = 0;
+    },
   },
 });
 
 export const {
   setCurrentStep,
   setResults,
+  resetQuiz,
 } = quiz.actions;
 
 export default quiz.reducer;

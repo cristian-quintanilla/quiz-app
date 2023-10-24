@@ -19,13 +19,20 @@ export const timer = createSlice({
     },
     setTimeExpired: (state, action: PayloadAction<boolean>) => {
       state.timeExpired = action.payload;
-    }
+    },
+    resetTimer: state => {
+      state.hours   = 0;
+      state.minutes = 2;
+      state.seconds = 0;
+      state.timeExpired = false;
+    },
   },
 });
 
 export const {
   setTimer,
   setTimeExpired,
+  resetTimer,
 } = timer.actions;
 
 export default timer.reducer;

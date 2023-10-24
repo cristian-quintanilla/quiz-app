@@ -19,6 +19,11 @@ export const questions = createSlice({
     setUserAnswer: (state, action: PayloadAction<{ currentQuestion: number, answer: string }>) => {
       state.currentQuestion = action.payload.currentQuestion + 1;
       state.questions[action.payload.currentQuestion].user_answer = action.payload.answer;
+    },
+    resetQuestions: (state) => {
+      state.questions = [];
+      state.currentQuestion = 0;
+      state.totalQuestions = 0;
     }
   },
 });
@@ -26,6 +31,7 @@ export const questions = createSlice({
 export const {
   setQuestions,
   setUserAnswer,
+  resetQuestions,
 } = questions.actions;
 
 export default questions.reducer;
