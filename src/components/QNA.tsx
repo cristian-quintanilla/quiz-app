@@ -19,15 +19,23 @@ export const QNA = () => {
       </TableHeader>
 
       <TableBody>
-        {questions.map(({ id, question, user_answer, correct_answer }, index) => (
-          <TableRow key={ index }>
-            <TableCell>{ id }</TableCell>
-            <TableCell>{ question }</TableCell>
-            <TableCell>{ user_answer }</TableCell>
-            <TableCell>{ correct_answer }</TableCell>
-            <TableCell>{ user_answer === correct_answer ? '1' : '0' }</TableCell>
-          </TableRow>
-        ))}
+        {
+          questions.map(({ id, question, user_answer, correct_answer }, index) => (
+            <TableRow key={ index }>
+              <TableCell>{ id }</TableCell>
+
+              <TableCell>
+                <div dangerouslySetInnerHTML={{ __html: question }}></div>
+              </TableCell>
+
+              <TableCell>{ user_answer }</TableCell>
+
+              <TableCell>{ correct_answer }</TableCell>
+
+              <TableCell>{ user_answer === correct_answer ? '1' : '0' }</TableCell>
+            </TableRow>
+          ))
+        }
       </TableBody>
     </Table>
   );

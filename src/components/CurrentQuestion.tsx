@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Card, CardBody, CardFooter, Chip, Divider, Radio, RadioGroup } from '@nextui-org/react';
-import { BsFillPlayFill, BsFillCheckCircleFill } from 'react-icons/bs';
+import { BsArrowRightShort, BsFillCheckCircleFill } from 'react-icons/bs';
 
 import { Grades } from '../types/grades';
 import { RootState } from '../store/rootReducer';
@@ -81,7 +81,7 @@ export const CurrentQuestion = () => {
 
             <div
               className="font-semibold text-2xl"
-              dangerouslySetInnerHTML={{  __html: questions[index].question }}
+              dangerouslySetInnerHTML={{ __html: questions[index].question }}
             ></div>
           </CardBody>
         </Card>
@@ -123,7 +123,7 @@ export const CurrentQuestion = () => {
         ) : (
           <Button isDisabled={ !isValid } type="submit" color="primary" radius="sm">
             Next
-            <BsFillPlayFill size={ 22 } />
+            <BsArrowRightShort size={ 22 } />
           </Button>
         )}
       </CardFooter>

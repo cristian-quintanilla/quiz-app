@@ -90,7 +90,7 @@ export const QuestionsForm = () => {
             <Select
               label="In which category do you want to play the quiz?"
               placeholder="Select a category"
-              defaultSelectedKeys={['0']}
+              defaultSelectedKeys={ ['0'] }
               value={ field.value }
               onChange={ field.onChange }
             >
